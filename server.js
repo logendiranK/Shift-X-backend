@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     'https://shift-x-frontend.vercel.app',
-    'https://shift-x-frontend-1qmn3jkpp-logendiranks-projects.vercel.app'
+    'https://shift-x-frontend-1qmn3jkpp-logendiranks-projects.vercel.app',
+    'http://localhost:5173'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
