@@ -7,18 +7,29 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// CORS Configuration
+app.use(cors({
+  origin: [
+    'https://shift-x-frontend-1qmn3jkpp-logendiranks-projects.vercel.app'
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 
+// Static uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect(process.env.MONGO_URI, {
-}).then(() => {
-  console.log('MongoDB connected');
-}).catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
 
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const workerRoutes = require('./routes/workerRoutes');
 const urgentjobsRouter = require('./routes/urgentjobs');
@@ -31,6 +42,12 @@ app.use('/api/urgentjobs', urgentjobsRouter);
 app.use('/api/part-time-jobs', partTimeJobsRouter);
 app.use('/api/applications', applicationRoutes);
 
+// Default Route
+app.get('/', (req, res) => {
+  res.send('ShiftX Backend Running Successfully');
+});
+
+// Server Start
 const startServer = (port) => {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
